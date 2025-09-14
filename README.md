@@ -13,7 +13,7 @@
 	  -e MYSQL_ROOT_PASSWORD=my_sql \
 	  -e MYSQL_DATABASE=petclinic_db \
 	  -e MYSQL_USER=sviti \
-	  -e MYSQL_PASSWORD=capybara \
+	  -e MYSQL_PASSWORD=xxx \
 	  -p 3307:3306 -v mysql_data:/var/lib/mysql mysql:latest
 	```
 
@@ -34,7 +34,7 @@
 	docker run --rm -p 8080:8080 --network petclinic_network \
 	  -e MYSQL_URL=jdbc:mysql://mysql/petclinic_db \
 	  -e MYSQL_USER=sviti \
-	  -e MYSQL_PASS=capybara \
+	  -e MYSQL_PASS=xxx \
 	  -e SPRING_PROFILES_ACTIVE=mysql \
 	  petclinic:v2
 	```

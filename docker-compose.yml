@@ -1,21 +1,36 @@
 services:
-  mysql:
-    image: mysql:9.2
+  db:
+    image: mysql:latest
+    networks:
+      - petclinic-network
+    env_file:
+      - ./.env
     ports:
-      - "3306:3306"
-    environment:
-      - MYSQL_ROOT_PASSWORD=
-      - MYSQL_ALLOW_EMPTY_PASSWORD=true
-      - MYSQL_USER=petclinic
-      - MYSQL_PASSWORD=petclinic
-      - MYSQL_DATABASE=petclinic
+      - "3307:3306"
     volumes:
-      - "./conf.d:/etc/mysql/conf.d:ro"
-  postgres:
-    image: postgres:17.5
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    ##image: petclinic:v1.0
+    image: svitlanakizilpinar/petclinic:v1.0
+    ## build: .
+    networks:
+      - petclinic-network
     ports:
-      - "5432:5432"
-    environment:
-      - POSTGRES_PASSWORD=petclinic
-      - POSTGRES_USER=petclinic
-      - POSTGRES_DB=petclinic
+      - "8080:8080"
+    env_file:
+      - ./.env
+    depends_on:
+      db:
+        condition: service_healthy
+
+networks:
+  petclinic-network:
+
+volumes:
+  db_data:

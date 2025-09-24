@@ -32,5 +32,6 @@ jobs:
         name: Build and push
         run: |
           docker build -t svitlanakizilpinar/petclinic:latest -t svitlanakizilpinar/petclinic:$(git rev-parse --short HEAD) .
+          echo ${{ secrets.PETCLINIC_SECRET_TOCKEN }} | docker login -u svitlanakizilpinar --password-stdin
           docker push svitlanakizilpinar/petclinic:latest
           docker push svitlanakizilpinar/petclinic:$(git rev-parse --short HEAD)

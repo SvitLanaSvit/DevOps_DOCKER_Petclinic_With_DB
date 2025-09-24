@@ -31,4 +31,6 @@ jobs:
       -
         name: Build and push
         run: |
-          docker build -t svitlanakizilpinar/petclinic:latest -t svitlanakizilpinar/petclinic:$(git rev-parse --short HEAD) .
+          docker build -t svitlanakizilpinar/petclinic:latest -t svitlanakizilpinar/petclinic:$(git rev-parse --short HEAD) --cache-from=type=gha --cache-to=type=gha,mode=max .
+          docker push svitlanakizilpinar/petclinic:latest
+          docker push svitlanakizilpinar/petclinic:$(git rev-parse --short HEAD)
